@@ -2,7 +2,7 @@
 
 A WordPress Theme for building VR experiences with A-Frame.
 
-![wpvr_video](https://j.gifs.com/MjRg75.gif "wpvr_video")
+![wpvr_video](https://j.gifs.com/MjRg75.gif)
 
 ## Description
 "wpvr" is a WordPress theme that expresses plain content in VR.
