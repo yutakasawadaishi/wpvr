@@ -1,5 +1,4 @@
 /* */
-
 //
 'use strict';
 
@@ -7,11 +6,18 @@
 window.onload = function() {
 
     //
-    var WPVR_ROOT_HREF = document.querySelector('body').getAttribute('wpvr_root_href');
-    var WPVR_CAREGORIES_HREF = document.querySelector('body').getAttribute('wpvr_categories_href');
-    var WPVR_LINK_HREF = document.querySelector('body').getAttribute('wpvr_link_href');
-    var SLIDE_WIDTH = 5;
+    var WPVR_SLIDE_WIDTH = 5;
 
+    var WPVR_ENABLE_CUSTOM_FONT = false;
+    var WPVR_CUSTOM_FONT_FILE = '/assets/fonts/japanese.fnt';
+
+    var WPVR_JSON_HOME_HREF = document.querySelector('body').getAttribute('wpvr_json_home_href');
+    var WPVR_JSON_CAREGORIES_HREF = document.querySelector('body').getAttribute('wpvr_json_categories_href');
+    var WPVR_JSON_CURRENT_HREF = document.querySelector('body').getAttribute('wpvr_json_current_href');
+
+    var WPVR_TEMPLATE_URI = document.querySelector('body').getAttribute('wpvr_template_uri');
+
+    //
     var slides = document.querySelector('#slides');
     var slidesCount = 0;
     var slidesPosition = 0;
@@ -22,15 +28,21 @@ window.onload = function() {
     var json;
 
     //
+    var font;
+    if (WPVR_ENABLE_CUSTOM_FONT) {
+        font = 'font: ' + WPVR_TEMPLATE_URI + WPVR_CUSTOM_FONT_FILE + '; ';
+    }
+
+    //
     listenUiEvent();
-    loadSlides(WPVR_LINK_HREF);
+    loadSlides(WPVR_JSON_CURRENT_HREF);
 
     //
     function listenUiEvent() {
         var uiHome = document.querySelector('#ui-home');
         uiHome.setAttribute('opacity', '1');
         uiHome.addEventListener('click', function() {
-            loadSlides(WPVR_ROOT_HREF)
+            loadSlides(WPVR_JSON_HOME_HREF)
         });
         uiHome.addEventListener('mouseenter', function() {
             this.appendChild(getAnimFadeOut());
@@ -82,7 +94,7 @@ window.onload = function() {
         var uiCategories = document.querySelector('#ui-categories');
         uiCategories.setAttribute('opacity', '1');
         uiCategories.addEventListener('click', function() {
-            loadSlides(WPVR_CAREGORIES_HREF)
+            loadSlides(WPVR_JSON_CAREGORIES_HREF)
         });
         uiCategories.addEventListener('mouseenter', function() {
             this.appendChild(getAnimFadeOut());
@@ -158,7 +170,7 @@ window.onload = function() {
         while (slides.firstChild) slides.removeChild(slides.firstChild);
 
         for (var i in temp) {
-            temp[i].setAttribute('position', (i * SLIDE_WIDTH) + ' 0 0');
+            temp[i].setAttribute('position', (i * WPVR_SLIDE_WIDTH) + ' 0 0');
             slides.appendChild(temp[i]);
         }
     }
@@ -183,7 +195,7 @@ window.onload = function() {
         }
         var anim = document.createElement('a-animation');
         anim.setAttribute('attribute', 'position');
-        anim.setAttribute('to', (slidesPosition * SLIDE_WIDTH * -1) + ' 0 0');
+        anim.setAttribute('to', (slidesPosition * WPVR_SLIDE_WIDTH * -1) + ' 0 0');
         anim.setAttribute('dur', '1000');
         slides.appendChild(anim);
     }
@@ -212,24 +224,24 @@ window.onload = function() {
         slide.setAttribute('scale', '.95 .95 .95');
 
         var category = document.createElement('a-entity');
-        category.setAttribute('text', 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 50; ' + 'value: ' + article.category.name);
+        category.setAttribute('text', font + 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 50; ' + 'value: ' + article.category.name);
         category.setAttribute('position', '-2.5 .5 0');
         category.setAttribute('scale', '2.5 2.5 2.5');
 
         var title = document.createElement('a-entity');
-        title.setAttribute('text', 'align: left; anchor: left; baseline: top; color: #fff; lineHeight: 50; ' + 'value: ' + article.title);
+        title.setAttribute('text', font + 'align: left; anchor: left; baseline: top; color: #fff; lineHeight: 50; ' + 'value: ' + article.title);
         title.setAttribute('position', '-2.5 .25 0');
         title.setAttribute('scale', '5 5 5');
 
         var eyecatch = document.createElement('a-image');
         eyecatch.setAttribute('src', article.eyecatch);
-        eyecatch.setAttribute('width', SLIDE_WIDTH);
+        eyecatch.setAttribute('width', WPVR_SLIDE_WIDTH);
         eyecatch.setAttribute('height', '3.25');
         eyecatch.setAttribute('position', '0 0 -.25');
         eyecatch.setAttribute('opacity', '.75');
 
         var excerpt = document.createElement('a-entity');
-        excerpt.setAttribute('text', 'align: left; anchor: left; baseline: top; color: #fff; lineHeight: 75; ' + 'value: ' + article.excerpt);
+        excerpt.setAttribute('text', font + 'align: left; anchor: left; baseline: top; color: #fff; lineHeight: 75; ' + 'value: ' + article.excerpt);
         excerpt.setAttribute('position', '-2.5 -.5 0');
         excerpt.setAttribute('scale', '2.5 2.5 2.5');
 
@@ -251,13 +263,13 @@ window.onload = function() {
         slide.setAttribute('scale', '.95 .95 .95');
 
         var title = document.createElement('a-entity');
-        title.setAttribute('text', 'align: center; anchor: left; baseline: top; color: #fff; lineHeight: 50; ' + 'value: ' + article.title);
+        title.setAttribute('text', font + 'align: center; anchor: left; baseline: top; color: #fff; lineHeight: 50; ' + 'value: ' + article.title);
         title.setAttribute('position', '-2.5 .25 0');
         title.setAttribute('scale', '5 5 5');
 
         var eyecatch = document.createElement('a-image');
         eyecatch.setAttribute('src', article.eyecatch);
-        eyecatch.setAttribute('width', SLIDE_WIDTH);
+        eyecatch.setAttribute('width', WPVR_SLIDE_WIDTH);
         eyecatch.setAttribute('height', '3.25');
         eyecatch.setAttribute('position', '0 0 -.25');
         eyecatch.setAttribute('opacity', '.75');
@@ -279,18 +291,18 @@ window.onload = function() {
         var cover = document.createElement('a-entity');
 
         var category = document.createElement('a-entity');
-        category.setAttribute('text', 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 50; ' + 'value: ' + article.category.name);
+        category.setAttribute('text', font + 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 50; ' + 'value: ' + article.category.name);
         category.setAttribute('position', '-2.5 .5 0');
         category.setAttribute('scale', '2.5 2.5 2.5');
 
         var title = document.createElement('a-entity');
-        title.setAttribute('text', 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 50; ' + 'value: ' + article.title);
+        title.setAttribute('text', font + 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 50; ' + 'value: ' + article.title);
         title.setAttribute('position', '-2.5 0 0');
         title.setAttribute('scale', '5 5 5');
 
         var eyecatch = document.createElement('a-image');
         eyecatch.setAttribute('src', article.eyecatch);
-        eyecatch.setAttribute('width', SLIDE_WIDTH);
+        eyecatch.setAttribute('width', WPVR_SLIDE_WIDTH);
         eyecatch.setAttribute('height', '3.25');
         eyecatch.setAttribute('position', '0 0 -.25');
         eyecatch.setAttribute('opacity', '.75');
@@ -307,7 +319,7 @@ window.onload = function() {
 
         for (var i in article['contents']) {
             var content = document.createElement('a-entity');
-            content.setAttribute('text', 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 75; ' + 'value: ' + article.contents[i]);
+            content.setAttribute('text', font + 'align: left; anchor: left; baseline: center; color: #fff; lineHeight: 75; ' + 'value: ' + article.contents[i]);
             content.setAttribute('position', '-2.5 0 0');
             content.setAttribute('scale', '2.5 2.5 2.5');
             content.addEventListener('click', function() {
@@ -320,7 +332,7 @@ window.onload = function() {
             for (var i in article['images']) {
                 var image = document.createElement('a-image');
                 image.setAttribute('src', article.images[i]);
-                image.setAttribute('width', SLIDE_WIDTH);
+                image.setAttribute('width', WPVR_SLIDE_WIDTH);
                 image.setAttribute('height', '3.25');
                 image.setAttribute('scale', '.95 .95 .95');
                 image.addEventListener('click', function() {

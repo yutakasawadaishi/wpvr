@@ -19,7 +19,7 @@
 		<title><?php bloginfo('name'); ?></title>
 		<?php wp_head(); ?>
 	</head>
-	<body wpvr_root_href="<?php echo home_url() . '/wpvr-json/'; ?>" wpvr_categories_href="<?php echo home_url() . '/wpvr-json/?wpvr_page_type=categories'; ?>" wpvr_link_href="<?php echo home_url() . '/wpvr-json/'; ?>">
+	<body wpvr_template_uri="<?php echo get_template_directory_uri(); ?>" wpvr_json_home_href="<?php echo home_url() . '/wpvr-json/'; ?>" wpvr_json_categories_href="<?php echo home_url() . '/wpvr-json/?wpvr_page_type=categories'; ?>" wpvr_json_current_href="<?php echo home_url() . '/wpvr-json/'; ?>">
 	<?php get_template_part('template/template', 'wpvr'); ?>
 	</body>
 </html>
